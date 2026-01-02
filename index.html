@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Aura - Presentations</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --midnight: #080B14;
+            --gold: #C5A059;
+            --slate: #94A3B8;
+            --card-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--midnight);
+            color: var(--slate);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 2px solid var(--gold);
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            font-style: italic;
+        }
+
+        .cards {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            border-radius: 16px;
+            padding: 40px 30px;
+            width: 320px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(197, 160, 89, 0.1);
+        }
+
+        .card h2 {
+            font-family: 'Cormorant Garamond', serif;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: var(--slate);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            margin-top: 60px;
+            color: rgba(148, 163, 184, 0.5);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="brand_guidelines/67b0fadc-855a-4f63-8585-c9063ea615e0.jpg" alt="Data Aura Logo" class="logo">
+        <h1>Data Aura</h1>
+        <p class="tagline">Your Data, Harmonized for You – Privacy, Power, Perks.</p>
+
+        <div class="cards">
+            <a href="data-aura-investor-deck.html" class="card">
+                <div class="icon">📊</div>
+                <h2>Investor Deck</h2>
+                <p>12-slide executive presentation with market sizing, financials, and strategic vision for Series A
+                    investors.</p>
+            </a>
+            <a href="data-aura-architecture.html" class="card">
+                <div class="icon">🏗️</div>
+                <h2>Technical Architecture</h2>
+                <p>Platform architecture featuring Snowflake Clean Rooms, UI mockups, and consent-to-activation data
+                    flows.</p>
+            </a>
+        </div>
+
+        <footer>
+            © 2026 Data Aura. Confidential.
+        </footer>
+    </div>
+</body>
+
+</html>

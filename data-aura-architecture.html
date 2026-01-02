@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Aura - Technical Architecture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Consistent Executive Palette */
+            --color-bg: #080B14;
+            --color-text-primary: #F0F2F5;
+            --color-text-secondary: #94A3B8;
+            --color-accent-gold: #C5A059;
+            --color-card-bg: rgba(255, 255, 255, 0.02);
+            --color-border: rgba(197, 160, 89, 0.3);
+
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-bg);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            padding: 60px 100px;
+        }
+
+        /* Subtle Grain Texture */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .header {
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 40px;
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-logo img {
+            height: 50px;
+            margin-bottom: 15px;
+            filter: brightness(1.1) contrast(1.1);
+            /* Match Deck */
+        }
+
+        .doc-title {
+            font-family: var(--font-serif);
+            font-size: 2.5em;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .doc-meta {
+            text-align: right;
+            font-size: 0.85em;
+            color: var(--color-text-secondary);
+            font-family: var(--font-sans);
+        }
+
+        h2 {
+            font-family: var(--font-sans);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-accent-gold);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+            margin-top: 60px;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-family: var(--font-serif);
+            font-size: 1.5em;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        /* Technical Diagram Styling */
+        .diagram-container {
+            background: var(--color-card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 50px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .arch-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            position: relative;
+        }
+
+        .arch-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .arch-node {
+            background: rgba(8, 11, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            text-align: center;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .arch-node:hover {
+            border-color: var(--color-accent-gold);
+        }
+
+        .arch-node-icon {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .arch-node-label {
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .arch-node-meta {
+            font-size: 0.7em;
+            color: var(--color-text-secondary);
+            margin-top: 5px;
+        }
+
+        .clean-room-zone {
+            flex: 1.5;
+            margin: 0 40px;
+            border: 1px dashed var(--color-accent-gold);
+            background: rgba(197, 160, 89, 0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        .clean-room-label {
+            position: absolute;
+            top: -12px;
+            background: var(--color-bg);
+            padding: 0 15px;
+            color: var(--color-accent-gold);
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Connectors */
+        .connector-line {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        /* UI Mockups - Minimalist Wireframe Style */
+        .mockup-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .mockup-frame {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #0C0F19;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .mockup-label {
+            text-align: center;
+            font-family: var(--font-sans);
+            font-size: 0.8em;
+            color: var(--color-text-secondary);
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .app-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .app-brand {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: white;
+        }
+
+        .stat-card {
+            border: 1px solid var(--color-accent-gold);
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(197, 160, 89, 0.05);
+        }
+
+        .stat-num {
+            font-size: 1.5em;
+            font-family: var(--font-serif);
+            color: var(--color-accent-gold);
+        }
+
+        .stat-sub {
+            font-size: 0.7em;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 0.85em;
+        }
+
+        /* Code Block for API */
+        .code-block {
+            font-family: 'Consolas', monospace;
+            font-size: 0.85em;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 2px solid var(--color-accent-gold);
+            padding: 25px;
+            color: #d4d4d4;
+        }
+
+        .kw {
+            color: var(--color-accent-gold);
+        }
+
+        /* Keyword */
+        .fn {
+            color: #9CDCFE;
+        }
+
+        /* Function */
+        .cm {
+            color: #6A9955;
+        }
+
+        /* Comment */
+
+        .footer {
+            margin-top: 100px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 20px;
+            font-size: 0.75em;
+            color: var(--color-text-secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="header-logo">
+            <img src="brand_guidelines/67b0fadc-855a-4f63-8585-c9063ea615e0.jpg" alt="Data Aura">
+            <div class="doc-title">System Architecture</div>
+        </div>
+        <div class="doc-meta">
+            <div>CONFIDENTIAL</div>
+            <div>Reference Architecture v2.4</div>
+        </div>
+    </div>
+
+    <!-- 1. Infrastructure -->
+    <h2>1. Data Topology</h2>
+    <p
+        style="max-width: 800px; margin-bottom: 40px; font-family: var(--font-serif); font-size: 1.2em; color: var(--color-text-secondary);">
+        The Data Aura architecture is constructed on a <strong>zero-trust</strong> principle. Raw consumer identity data
+        never egresses the secure enclave. All matching logic executes within the clean room boundary.
+    </p>
+
+    <div class="diagram-container">
+        <div class="arch-flow">
+            <!-- Left: Ingestion -->
+            <div class="arch-column">
+                <div
+                    style="text-align: center; color: var(--color-text-secondary); font-size: 0.7em; text-transform: uppercase; margin-bottom: 10px;">
+                    Ingestion Sources</div>
+                <div class="arch-node">
+                    <div class="arch-node-icon">👤</div>
+                    <div class="arch-node-label">Consumer App</div>
+                    <div class="arch-node-meta">Zero-Party Consent</div>
+                </div>
+                <div class="arch-node">
+                    <div class="arch-node-icon">🏢</div>
+                    <div class="arch-node-label">Brand CRM</div>
+                    <div class="arch-node-meta">1st Party Data</div>
+                </div>
+                <div class="arch-node">
+                    <div class="arch-node-icon">📱</div>
+                    <div class="arch-node-label">Walled Gardens</div>
+                    <div class="arch-node-meta">CAPI / ADH / Events</div>
+                </div>
+            </div>
+
+            <!-- Center: Clean Room -->
+            <div class="clean-room-zone">
+                <div class="clean-room-label">Snowflake Clean Room (AWS Region)</div>
+                <div style="font-size: 3em; color: var(--color-accent-gold); margin-bottom: 20px;">❄️</div>
+                <div style="font-family: var(--font-serif); font-size: 1.3em; margin-bottom: 10px;">Privacy Compute
+                    Engine</div>
+                <div style="font-size: 0.8em; color: var(--color-text-secondary); text-align: center;">
+                    Secure Multi-Party Computation (SMPC)<br>
+                    Differential Privacy applied to outputs<br>
+                    <strong>Push Tokenized Activation (No PI Egress)</strong>
+                </div>
+            </div>
+
+            <!-- Right: Activation -->
+            <div class="arch-column">
+                <div
+                    style="text-align: center; color: var(--color-text-secondary); font-size: 0.7em; text-transform: uppercase; margin-bottom: 10px;">
+                    Activation & Logic</div>
+                <div class="arch-node" style="border-color: var(--color-accent-gold);">
+                    <div class="arch-node-icon">🤖</div>
+                    <div class="arch-node-label">MCP Agent</div>
+                    <div class="arch-node-meta">Orchestrator + Governance</div>
+                </div>
+                <div class="arch-node">
+                    <div class="arch-node-icon">⚡</div>
+                    <div class="arch-node-label">Real-Time API</div>
+                    <div class="arch-node-meta">Meta CAPI / RTB</div>
+                </div>
+                <div class="arch-node">
+                    <div class="arch-node-icon">🐢</div>
+                    <div class="arch-node-label">Async Batch</div>
+                    <div class="arch-node-meta">Google ADH / Reports</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Interfaces -->
+    <h2>2. Interface Schematics</h2>
+
+    <div class="mockup-grid">
+        <!-- Consumer UI -->
+        <div>
+            <div class="mockup-frame">
+                <div class="app-header">
+                    <div class="app-brand">My Aura</div>
+                    <div style="font-size: 0.7em; color: var(--color-text-secondary);">v2.0</div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <div
+                        style="font-size: 0.8em; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 10px;">
+                        Active Consents</div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <span
+                            style="border: 1px solid white; padding: 5px 12px; font-size: 0.8em; border-radius: 20px;">BMW</span>
+                        <span
+                            style="border: 1px solid white; padding: 5px 12px; font-size: 0.8em; border-radius: 20px;">Emirates</span>
+                        <span
+                            style="border: 1px solid white; padding: 5px 12px; font-size: 0.8em; border-radius: 20px;">Amex</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-sub">Monthly Yield</div>
+                    <div class="stat-num">$12.50</div>
+                    <div style="font-size: 0.7em; color: var(--color-text-secondary); margin-top: 5px;">+ 245 AURA
+                        Tokens Accrued</div>
+                </div>
+
+                <div
+                    style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; font-size: 0.8em; color: var(--color-text-secondary); text-align: center;">
+                    Your Privacy Score: 98/100
+                </div>
+            </div>
+            <div class="mockup-label">Consumer Application</div>
+        </div>
+
+        <!-- Brand UI -->
+        <div>
+            <div class="mockup-frame">
+                <div class="app-header">
+                    <div class="app-brand">Brand Console</div>
+                    <div style="font-size: 0.7em; color: var(--color-text-secondary);">Enterprise</div>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                    <div style="flex: 1; text-align: center; border: 1px solid rgba(255,255,255,0.1); padding: 10px;">
+                        <div style="font-size: 1.2em; color: white;">847K</div>
+                        <div style="font-size: 0.6em; text-transform: uppercase; color: var(--color-text-secondary);">
+                            Audience</div>
+                    </div>
+                    <div style="flex: 1; text-align: center; border: 1px solid rgba(255,255,255,0.1); padding: 10px;">
+                        <div style="font-size: 1.2em; color: var(--color-accent-gold);">4.2x</div>
+                        <div style="font-size: 0.6em; text-transform: uppercase; color: var(--color-text-secondary);">
+                            ROAS Lift</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 5px;">
+                    <span
+                        style="border: 1px solid #4ade80; color: #4ade80; font-size: 0.5em; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.1em;">✓
+                        Guardrails Active</span>
+                </div>
+
+                <div
+                    style="background: rgba(255,255,255,0.05); padding: 10px; font-family: 'Consolas', monospace; font-size: 0.8em; color: var(--color-text-secondary); margin-bottom: 20px;">
+                    > Agent: Activate segment "Luxury Travel" via Meta CAPI...
+                </div>
+
+                <div class="list-item">
+                    <span>Segment Match</span>
+                    <span style="color: var(--color-accent-gold);">234K Users</span>
+                </div>
+                <div class="list-item">
+                    <span>Est. Cost</span>
+                    <span>$0.85 CPA</span>
+                </div>
+            </div>
+            <div class="mockup-label">Brand Orchestration Terminal</div>
+        </div>
+    </div>
+
+    <!-- 3. MCP API Spec -->
+    <h2>3. MCP Interface Definition</h2>
+    <div class="code-block">
+        <div class="cm">// Discovery Protocol</div>
+        <div><span class="kw">function</span> <span class="fn">get_consented_audience</span>(brand_id: string, filters:
+            object): AudienceSummary</div>
+        <div><span class="kw">function</span> <span class="fn">get_consent_overlaps</span>(brand_id: string, partners:
+            string[]): OverlapMatrix</div>
+        <br>
+        <div class="cm">// Orchestration Protocol</div>
+        <div><span class="kw">function</span> <span class="fn">activate_journey</span>(audience_id: string, channels:
+            Channel[]): JobID</div>
+        <div><span class="kw">function</span> <span class="fn">measure_consent_roi</span>(campaign_id: string): Report
+        </div>
+    </div>
+
+    <div class="footer">
+        <div>Proprietary & Confidential</div>
+        <div>© 2026 Data Aura Inc.</div>
+    </div>
+
+</body>
+
+</html>

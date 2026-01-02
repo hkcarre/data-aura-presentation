@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Aura - Strategic Vision 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* McKinsey / High-End Consulting Palette */
+            --color-bg: #080B14;
+            /* Deepest Midnight */
+            --color-text-primary: #F0F2F5;
+            --color-text-secondary: #94A3B8;
+            --color-accent-gold: #C5A059;
+            /* Muted Metallic Gold */
+            --color-accent-gold-dim: #8D7340;
+            --color-divider: rgba(197, 160, 89, 0.3);
+            --color-card-bg: rgba(255, 255, 255, 0.02);
+            --color-card-border: rgba(255, 255, 255, 0.05);
+
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-bg);
+            color: var(--color-text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Subtle Texture */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .slide {
+            min-height: 100vh;
+            padding: 60px 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            /* Consulting decks often start from top */
+            position: relative;
+            z-index: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        /* Consistent Header Layout */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 50px;
+            border-bottom: 1px solid var(--color-divider);
+            padding-bottom: 20px;
+        }
+
+        .slide-title {
+            font-family: var(--font-serif);
+            font-size: 2.8em;
+            font-weight: 300;
+            color: white;
+            letter-spacing: -0.01em;
+            line-height: 1.1;
+        }
+
+        .slide-subtitle {
+            font-family: var(--font-sans);
+            font-size: 0.8em;
+            color: var(--color-accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 10px;
+        }
+
+        .slide-meta {
+            text-align: right;
+            font-family: var(--font-sans);
+            font-size: 0.75em;
+            color: var(--color-text-secondary);
+        }
+
+        /* Content Grids */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 40px;
+            height: 100%;
+        }
+
+        .col-4 {
+            grid-column: span 4;
+        }
+
+        .col-6 {
+            grid-column: span 6;
+        }
+
+        .col-8 {
+            grid-column: span 8;
+        }
+
+        .col-12 {
+            grid-column: span 12;
+        }
+
+        /* Typography System */
+        h3 {
+            font-family: var(--font-sans);
+            font-size: 1.1em;
+            font-weight: 400;
+            color: var(--color-accent-gold);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        p {
+            font-size: 1em;
+            color: var(--color-text-secondary);
+            font-weight: 300;
+            margin-bottom: 20px;
+            max-width: 90%;
+        }
+
+        .lead {
+            font-size: 1.25em;
+            color: var(--color-text-primary);
+            line-height: 1.5;
+        }
+
+        .quote {
+            font-family: var(--font-serif);
+            font-size: 2em;
+            font-style: italic;
+            color: var(--color-text-primary);
+            border-left: 2px solid var(--color-accent-gold);
+            padding-left: 30px;
+            margin: 40px 0;
+        }
+
+        /* Executive Components */
+        .insight-box {
+            background: var(--color-card-bg);
+            border-top: 2px solid var(--color-accent-gold);
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .insight-label {
+            font-family: var(--font-sans);
+            font-size: 0.7em;
+            font-weight: 600;
+            color: var(--color-accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .data-point {
+            margin-bottom: 30px;
+        }
+
+        .data-value {
+            font-family: var(--font-serif);
+            font-size: 3.5em;
+            color: white;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .data-label {
+            font-size: 0.85em;
+            color: var(--color-text-secondary);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        /* Table Styling */
+        .strategic-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .strategic-table th {
+            text-align: left;
+            font-family: var(--font-sans);
+            font-size: 0.75em;
+            text-transform: uppercase;
+            color: var(--color-text-secondary);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--color-accent-gold-dim);
+        }
+
+        .strategic-table td {
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95em;
+            color: var(--color-text-primary);
+        }
+
+        .strategic-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Nav & Footer */
+        .footer {
+            position: absolute;
+            bottom: 30px;
+            left: 100px;
+            right: 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7em;
+            color: rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+        }
+
+        .nav-controls {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--color-accent-gold);
+            color: var(--color-accent-gold);
+        }
+
+        /* Logo Refinement */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo-img {
+            height: 40px;
+            /* Filter to make it look metallic/monochrome gold-ish if needed, 
+               or keep original if user insists. User said "slightly change".
+               Let's keep original but frame it nicely. */
+            filter: brightness(1.1) contrast(1.1);
+        }
+
+        .logo-text {
+            font-family: var(--font-serif);
+            font-size: 1.5em;
+            color: white;
+            letter-spacing: 0.05em;
+        }
+
+        /* Slide Specifics */
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-logo-large {
+            height: 120px;
+            margin-bottom: 40px;
+            /* Add a subtle glow/shadow */
+            filter: drop-shadow(0 0 30px rgba(197, 160, 89, 0.15));
+        }
+
+        .risk-level-tag {
+            font-size: 0.7em;
+            padding: 2px 8px;
+            border: 1px solid currentColor;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+
+        .tag-high {
+            color: #FF6B6B;
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+
+        .tag-med {
+            color: #FFD93D;
+            border-color: rgba(255, 217, 61, 0.3);
+        }
+
+        .tag-low {
+            color: #6BCB77;
+            border-color: rgba(107, 203, 119, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Slide 1: Title -->
+    <div class="slide title-slide" id="slide-1">
+        <img src="brand_guidelines/67b0fadc-855a-4f63-8585-c9063ea615e0.jpg" alt="Data Aura" class="hero-logo-large">
+
+        <div
+            style="font-family: var(--font-sans); color: var(--color-accent-gold); letter-spacing: 0.3em; font-size: 0.9em; margin-bottom: 20px;">
+            INVESTOR MEMORANDUM 2026</div>
+
+        <h1
+            style="font-family: var(--font-serif); font-size: 4.5em; font-weight: 300; margin-bottom: 20px; line-height: 1; letter-spacing: -0.02em;">
+            Data Aura</h1>
+
+        <p
+            style="font-size: 1.4em; color: var(--color-text-secondary); max-width: 600px; margin: 0 auto; font-family: var(--font-serif); font-style: italic;">
+            "Harmonizing the consent economy through privacy, power, and shared value."
+        </p>
+
+        <div style="margin-top: 60px; display: flex; gap: 60px;">
+            <div style="text-align: center;">
+                <div
+                    style="font-size: 0.8em; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 5px;">
+                    Market Opportunity</div>
+                <div style="font-family: var(--font-serif); font-size: 1.8em; color: white;">$340B</div>
+            </div>
+            <div style="width: 1px; background: rgba(255,255,255,0.1);"></div>
+            <div style="text-align: center;">
+                <div
+                    style="font-size: 0.8em; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 5px;">
+                    Problem Scope</div>
+                <div style="font-family: var(--font-serif); font-size: 1.8em; color: white;">42% Waste</div>
+            </div>
+            <div style="width: 1px; background: rgba(255,255,255,0.1);"></div>
+            <div style="text-align: center;">
+                <div
+                    style="font-size: 0.8em; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 5px;">
+                    Capital Ask</div>
+                <div style="font-family: var(--font-serif); font-size: 1.8em; color: var(--color-accent-gold);">15.0M
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Strategic Context -->
+    <div class="slide" id="slide-2">
+        <div class="slide-header">
+            <div>
+                <div class="slide-subtitle">Strategic Context</div>
+                <div class="slide-title">The Efficiency Gap in Digital Media</div>
+            </div>
+            <div class="slide-meta">02 / 12</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="col-8">
+                <p class="lead">The digital advertising industry loses <strong>$143B annually</strong> to structural
+                    inefficiencies. Without explicit consent, brands are forced to rely on probabilistic guessing,
+                    leading to massive capital waste.</p>
+
+                <table class="strategic-table" style="margin-top: 40px;">
+                    <tr>
+                        <th>Inefficiency Vector</th>
+                        <th>Impact Metric</th>
+                        <th>Structural Cause</th>
+                    </tr>
+                    <tr>
+                        <td>Cookie Deprecation</td>
+                        <td>-35% Targeting Accuracy</td>
+                        <td>Signal Loss</td>
+                    </tr>
+                    <tr>
+                        <td>Consumer Avoidance</td>
+                        <td>76% Block Rate</td>
+                        <td>Trust Deficit</td>
+                    </tr>
+                    <tr>
+                        <td>Ad Fraud</td>
+                        <td>$22B Annual Loss</td>
+                        <td>Opaque Supply Chain</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-4">
+                <div class="insight-box">
+                    <span class="insight-label">Key Insight</span>
+                    <p style="margin-bottom: 0;">"The industry optimizes for <em>impressions</em>, not
+                        <em>relationships</em>. This fundamental misalignment creates a $143B/year arbitrage opportunity
+                        for a consent-first platform."
+                    </p>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <div class="data-point">
+                        <div class="data-value">30-50%</div>
+                        <div class="data-label">Walled Garden "Tax" on Spend</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div>CONFIDENTIAL — Data Aura Inc.</div>
+            <div>Strategic Memorandum</div>
+        </div>
+    </div>
+
+    <!-- Slide 3: The Thesis -->
+    <div class="slide" id="slide-3">
+        <div class="slide-header">
+            <div>
+                <div class="slide-subtitle">The Thesis</div>
+                <div class="slide-title">The Consent Economy Model</div>
+            </div>
+            <div class="slide-meta">03 / 12</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="col-6" style="padding-right: 40px; border-right: 1px solid rgba(255,255,255,0.05);">
+                <h3>The Value Exchange</h3>
+                <p>We propose a paradigm shift from <strong>extraction</strong> to <strong>exchange</strong>. By
+                    allowing consumers to actively monetize their own intent data, we create a verified signal layer
+                    that brands can access via privacy-safe clean rooms.</p>
+
+                <div style="margin-top: 40px;">
+                    <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px;">
+                        <span style="font-size: 2em; color: var(--color-accent-gold);">01</span>
+                        <div>
+                            <strong style="display: block; color: white;">Consumer Sovereignty</strong>
+                            <span style="font-size: 0.9em; color: var(--color-text-secondary);">Users curate brand
+                                relationships and earn value & perks ($15/mo equivalent).</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px;">
+                        <span style="font-size: 2em; color: var(--color-accent-gold);">02</span>
+                        <div>
+                            <strong style="display: block; color: white;">Verified Intent</strong>
+                            <span style="font-size: 0.9em; color: var(--color-text-secondary);">Brands access
+                                deterministic data, eliminating fraud.</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <span style="font-size: 2em; color: var(--color-accent-gold);">03</span>
+                        <div>
+                            <strong style="display: block; color: white;">Zero-Trust Architecture</strong>
+                            <span style="font-size: 0.9em; color: var(--color-text-secondary);">Data never moves.
+                                Computation happens in situ via Snowflake.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6" style="display: flex; align-items: center; justify-content: center;">
+                <div
+                    style="width: 100%; height: 300px; border: 1px solid var(--color-accent-gold-dim); border-radius: 2px; position: relative;">
+                    <!-- Abstract Visualization of Exchange -->
+                    <div
+                        style="position: absolute; top: 20px; left: 20px; bottom: 20px; right: 20px; border: 1px dashed rgba(255,255,255,0.1);">
+                        <div
+                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                            <div
+                                style="font-family: var(--font-serif); font-size: 1.5em; color: var(--color-accent-gold);">
+                                The Protocol</div>
+                            <div style="font-size: 0.8em; margin-top: 10px; color: var(--color-text-secondary);">
+                                Permission &harr; Access</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div>CONFIDENTIAL — Data Aura Inc.</div>
+            <div>Strategic Memorandum</div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Market Dynamics -->
+    <div class="slide" id="slide-4">
+        <div class="slide-header">
+            <div>
+                <div class="slide-subtitle">Market Dynamics</div>
+                <div class="slide-title">Addressable Opportunity</div>
+            </div>
+            <div class="slide-meta">04 / 12</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="col-6">
+                <div class="data-point">
+                    <div class="data-value" style="color: var(--color-accent-gold);">$740B</div>
+                    <div class="data-label">Total Addressable Market (Global Ad Spend 2028)</div>
+                </div>
+
+                <div class="data-point">
+                    <div class="data-value">$185B</div>
+                    <div class="data-label">Serviceable Addressable Market (Consent-Compatible)</div>
+                </div>
+
+                <div class="data-point">
+                    <div class="data-value">$4.6B</div>
+                    <div class="data-label">Serviceable Obtainable Market (Y5 Target)</div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <h3>Financial Trajectory</h3>
+                <p>Our model assumes a conservative 2.5% penetration of the SAM by Year 5, driven by network effects.
+                </p>
+
+                <div style="margin-top: 30px; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 30px;">
+                    <div style="margin-bottom: 25px;">
+                        <div
+                            style="display: flex; justify-content: space-between; font-size: 0.9em; margin-bottom: 5px;">
+                            <span>Year 1 Revenue</span>
+                            <span style="color: var(--color-text-primary);">$2.4M</span>
+                        </div>
+                        <div style="height: 2px; width: 100%; background: rgba(255,255,255,0.05);">
+                            <div style="height: 100%; width: 5%; background: var(--color-text-secondary);"></div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <div
+                            style="display: flex; justify-content: space-between; font-size: 0.9em; margin-bottom: 5px;">
+                            <span>Year 3 Revenue</span>
+                            <span style="color: var(--color-text-primary);">$85M</span>
+                        </div>
+                        <div style="height: 2px; width: 100%; background: rgba(255,255,255,0.05);">
+                            <div style="height: 100%; width: 25%; background: var(--color-text-secondary);"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div
+                            style="display: flex; justify-content: space-between; font-size: 0.9em; margin-bottom: 5px;">
+                            <span>Year 5 Revenue</span>
+                            <span style="color: var(--color-accent-gold); font-weight: 600;">$690M</span>
+                        </div>
+                        <div style="height: 2px; width: 100%; background: rgba(255,255,255,0.05);">
+                            <div style="height: 100%; width: 100%; background: var(--color-accent-gold);"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px; display: flex; gap: 40px;">
+                    <div>
+                        <div style="font-size: 1.5em; color: white; font-family: var(--font-serif);">72%</div>
+                        <div style="font-size: 0.7em; color: var(--color-text-secondary); text-transform: uppercase;">
+                            Gross Margin</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 1.5em; color: white; font-family: var(--font-serif);">3.2x</div>
+                        <div style="font-size: 0.7em; color: var(--color-text-secondary); text-transform: uppercase;">
+                            LTV/CAC</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div>CONFIDENTIAL — Data Aura Inc.</div>
+            <div>Strategic Memorandum</div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Risk Analysis (Reformatted) -->
+    <div class="slide" id="slide-9">
+        <div class="slide-header">
+            <div>
+                <div class="slide-subtitle">Risk Assessment</div>
+                <div class="slide-title">Mitigation Framework</div>
+            </div>
+            <div class="slide-meta">09 / 12</div>
+        </div>
+
+        <table class="strategic-table">
+            <tr>
+                <th width="30%">Risk Factor</th>
+                <th width="15%">Severity</th>
+                <th width="55%">Strategic Mitigation</th>
+            </tr>
+            <tr>
+                <td>Consumer Adoption</td>
+                <td><span class="risk-level-tag tag-high">HIGH</span></td>
+                <td>Leverage Snowflake brand equity as trust anchor. Provide immediate, tangible value ($ earnings)
+                    visible in dashboard. Third-party audits.</td>
+            </tr>
+            <tr>
+                <td>Marketplace Liquidity</td>
+                <td><span class="risk-level-tag tag-high">HIGH</span></td>
+                <td>"Zero to One" Cold Start. Mitigation: Supply-side seeding with existing loyalty program partners
+                    (e.g., Airline Miles integration) to onboard 1M+ users instantly.</td>
+            </tr>
+            <tr>
+                <td>Brand Friction</td>
+                <td><span class="risk-level-tag tag-med">MEDIUM</span></td>
+                <td>"Wrap and Extend" strategy—no rip-and-replace. Integrate with existing stacks. Offer free pilot
+                    programs with guaranteed ROAS.</td>
+            </tr>
+            <tr>
+                <td>Walled Garden Resistance</td>
+                <td><span class="risk-level-tag tag-med">MEDIUM</span></td>
+                <td>Utilize established clean room APIs (ADH, CAPI). Position platform as a compliance necessity and
+                    liability shield for big tech.</td>
+            </tr>
+            <tr>
+                <td>Regulatory Changes</td>
+                <td><span class="risk-level-tag tag-low">LOW</span></td>
+                <td>Architectural tailwind. Our consent-first model exceeds current GDPR/CCPA requirements, making
+                    stricter laws a competitive advantage.</td>
+            </tr>
+        </table>
+
+        <div class="insight-box" style="margin-top: 40px;">
+            <span class="insight-label">Competitive Moat</span>
+            <p style="margin-bottom: 0;">"Our 18-month head start in building the bi-lateral consent graph creates a
+                flywheel effect: more consumers draw more brands, which funds better consumer incentives."</p>
+        </div>
+
+        <div class="footer">
+            <div>CONFIDENTIAL — Data Aura Inc.</div>
+            <div>Strategic Memorandum</div>
+        </div>
+    </div>
+
+    <!-- Slide 12: Vision -->
+    <div class="slide title-slide" id="slide-12">
+        <div style="margin-bottom: 30px;">
+            <!-- Placeholder for video, styled simply -->
+            <div
+                style="width: 200px; height: 120px; margin: 0 auto; border-radius: 4px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1);">
+                <video autoplay loop muted playsinline
+                    style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;">
+                    <source src="brand_guidelines/grok-video-67b0fadc-855a-4f63-8585-c9063ea615e0.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <h1
+            style="font-family: var(--font-serif); font-size: 3.5em; font-weight: 300; margin-bottom: 20px; line-height: 1.2;">
+            The Consent Economy</h1>
+
+        <p style="font-size: 1.2em; color: var(--color-text-secondary); margin-bottom: 50px;">
+            Constructing the verified intent layer for the next decade of advertising.
+            <br><span
+                style="font-size: 0.6em; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-accent-gold);">Powered
+                by AI Governance & Safety Protocols</span>
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px;">
+            <div>
+                <div style="font-size: 2em; color: var(--color-accent-gold); font-family: var(--font-serif);">$690M
+                </div>
+                <div style="font-size: 0.7em; text-transform: uppercase; color: var(--color-text-secondary);">Y5 Revenue
+                </div>
+            </div>
+            <div>
+                <div style="font-size: 2em; color: white; font-family: var(--font-serif);">5M</div>
+                <div style="font-size: 0.7em; text-transform: uppercase; color: var(--color-text-secondary);">Consumers
+                </div>
+            </div>
+            <div>
+                <div style="font-size: 2em; color: white; font-family: var(--font-serif);">850</div>
+                <div style="font-size: 0.7em; text-transform: uppercase; color: var(--color-text-secondary);">Brands
+                </div>
+            </div>
+            <div>
+                <div style="font-size: 2em; color: white; font-family: var(--font-serif);">4.2x</div>
+                <div style="font-size: 0.7em; text-transform: uppercase; color: var(--color-text-secondary);">ROAS Lift
+                </div>
+            </div>
+        </div>
+
+        <a href="mailto:invest@dataaura.io"
+            style="display: inline-block; border: 1px solid var(--color-accent-gold); color: var(--color-accent-gold); padding: 15px 40px; text-decoration: none; font-size: 0.9em; letter-spacing: 0.1em; transition: all 0.3s; text-transform: uppercase;">
+            Partner With Us
+        </a>
+
+        <div style="margin-top: 40px; font-size: 0.75em; color: rgba(255,255,255,0.3);">
+            invest@dataaura.io
+        </div>
+    </div>
+
+    <!-- Navigation JS -->
+    <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">↑</button>
+        <button class="nav-btn" onclick="nextSlide()">↓</button>
+    </div>
+
+    <script>
+        // Simple slide navigation logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function updateSlide() {
+            slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        // Keyboard nav
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Intersection observer to track current slide
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    currentSlide = Array.from(slides).indexOf(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        slides.forEach(slide => observer.observe(slide));
+    </script>
+
+</body>
+
+</html>
