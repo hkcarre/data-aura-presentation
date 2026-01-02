@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic vs Programmatic Advertising - Live Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .comparison-header {
+            display: grid;
+            grid-template-columns: 1fr 100px 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .comparison-header h2 {
+            font-size: 1.8em;
+            padding-bottom: 15px;
+            border-bottom: 3px solid;
+        }
+
+        .comparison-header h2.programmatic {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .comparison-header h2.agentic {
+            border-color: #4ecdc4;
+            color: #4ecdc4;
+        }
+
+        .comparison-header .vs {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .demo-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .demo-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .demo-panel.programmatic {
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .demo-panel.agentic {
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .step {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+
+        .step.active {
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .step.completed {
+            opacity: 1;
+            background: rgba(78, 205, 196, 0.1);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .step-title {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .step-content {
+            padding-left: 45px;
+            font-size: 0.95em;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .step-time {
+            padding-left: 45px;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .step-time.fast {
+            color: #4ecdc4;
+        }
+
+        .input-section {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .input-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #667eea;
+        }
+
+        .prompt-input {
+            width: 100%;
+            max-width: 700px;
+            padding: 20px 25px;
+            border-radius: 15px;
+            border: 2px solid rgba(102, 126, 234, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .prompt-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .demo-button {
+            padding: 15px 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .demo-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .results-section {
+            margin-top: 50px;
+        }
+
+        .results-section h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            background: linear-gradient(135deg, #4ecdc4 0%, #45b7d1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .signal-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .signal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: #4ecdc4;
+        }
+
+        .signal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .signal-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #4ecdc4;
+        }
+
+        .signal-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+
+        .signal-status.live {
+            background: rgba(78, 205, 196, 0.2);
+            color: #4ecdc4;
+        }
+
+        .signal-status.pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .signal-description {
+            font-size: 0.9em;
+            opacity: 0.8;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .signal-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+
+        .meta-label {
+            opacity: 0.6;
+            margin-right: 5px;
+        }
+
+        .meta-value {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .ai-explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            border-left: 3px solid #667eea;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .ai-explanation::before {
+            content: "🧠 AI Match Reason: ";
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .summary-label {
+            margin-top: 10px;
+            opacity: 0.7;
+        }
+
+        .key-differences {
+            margin-top: 60px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+        }
+
+        .key-differences h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            color: #667eea;
+        }
+
+        .diff-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .diff-item {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .diff-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .diff-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #4ecdc4;
+        }
+
+        .diff-desc {
+            font-size: 0.95em;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+
+        @media (max-width: 900px) {
+            .demo-area {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-header {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-header .vs {
+                display: none;
+            }
+
+            .summary-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .diff-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Agentic Advertising Demo</h1>
+            <p>Experience how AI agents transform advertising workflows from complex manual processes to simple natural
+                language conversations</p>
+        </div>
+
+        <div class="input-section">
+            <h3>🎯 Try It: Enter Your Campaign Goal</h3>
+            <input type="text" class="prompt-input" id="campaignPrompt"
+                value="Find luxury automotive enthusiasts interested in premium SUVs for a Q1 campaign"
+                placeholder="Describe your target audience in natural language...">
+            <br>
+            <button class="demo-button" id="runDemo" onclick="runDemo()">
+                ▶️ Run Side-by-Side Demo
+            </button>
+        </div>
+
+        <div class="comparison-header">
+            <h2 class="programmatic">📋 Programmatic (Traditional)</h2>
+            <div class="vs">VS</div>
+            <h2 class="agentic">🤖 Agentic (AI-Powered)</h2>
+        </div>
+
+        <div class="demo-area">
+            <!-- Programmatic Side -->
+            <div class="demo-panel programmatic" id="programmaticPanel">
+                <div class="step" id="prog-step1">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Login to DMP/DSP Platform</div>
+                    </div>
+                    <div class="step-content">Navigate to Oracle/Lotame/LiveRamp dashboard, authenticate with SSO...
+                    </div>
+                    <div class="step-time">⏱️ 2-5 minutes</div>
+                </div>
+
+                <div class="step" id="prog-step2">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Browse Segment Taxonomies</div>
+                    </div>
+                    <div class="step-content">Manually navigate through 1000s of segments: Demographics → Interest →
+                        Automotive → Luxury...</div>
+                    <div class="step-time">⏱️ 15-30 minutes</div>
+                </div>
+
+                <div class="step" id="prog-step3">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Compare Pricing Across Vendors</div>
+                    </div>
+                    <div class="step-content">Open multiple tabs, compare CPMs between Oracle, Nielsen, Experian,
+                        LiveRamp...</div>
+                    <div class="step-time">⏱️ 20-45 minutes</div>
+                </div>
+
+                <div class="step" id="prog-step4">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Check Platform Availability</div>
+                    </div>
+                    <div class="step-content">Verify segment is available on TTD, DV360, Xandr... Each platform has
+                        different integrations</div>
+                    <div class="step-time">⏱️ 10-20 minutes</div>
+                </div>
+
+                <div class="step" id="prog-step5">
+                    <div class="step-header">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Manually Activate Each Segment</div>
+                    </div>
+                    <div class="step-content">Go to each DSP, navigate to targeting, add segment IDs one by one,
+                        configure billing...</div>
+                    <div class="step-time">⏱️ 20-40 minutes</div>
+                </div>
+
+                <div class="step" id="prog-step6">
+                    <div class="step-header">
+                        <div class="step-number">6</div>
+                        <div class="step-title">Document & Report</div>
+                    </div>
+                    <div class="step-content">Screenshot confirmations, update spreadsheets, email team...</div>
+                    <div class="step-time">⏱️ 15-30 minutes</div>
+                </div>
+            </div>
+
+            <!-- Agentic Side -->
+            <div class="demo-panel agentic" id="agenticPanel">
+                <div class="step" id="agent-step1">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Natural Language Request</div>
+                    </div>
+                    <div class="step-content" id="agentPromptDisplay">
+                        <em>"Find luxury automotive enthusiasts interested in premium SUVs"</em>
+                    </div>
+                    <div class="step-time fast">⏱️ Instant</div>
+                </div>
+
+                <div class="step" id="agent-step2">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <div class="step-title">AI Discovers & Ranks Signals</div>
+                    </div>
+                    <div class="step-content">Agent searches across ALL data providers using semantic understanding, not
+                        just keywords...</div>
+                    <div class="step-time fast">⏱️ 2-3 seconds</div>
+                </div>
+
+                <div class="step" id="agent-step3">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Unified Pricing & Availability</div>
+                    </div>
+                    <div class="step-content">Returns CPMs and platform availability in single response - no switching
+                        tabs...</div>
+                    <div class="step-time fast">⏱️ Included above</div>
+                </div>
+
+                <div class="step" id="agent-step4">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <div class="step-title">One-Click Activation</div>
+                    </div>
+                    <div class="step-content">Activate signals across multiple platforms with a single API call...</div>
+                    <div class="step-time fast">⏱️ 5-10 seconds</div>
+                </div>
+
+                <div class="step" id="agent-step5">
+                    <div class="step-header">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Automatic Reporting</div>
+                    </div>
+                    <div class="step-content">Webhook notifications track status, delivery metrics stream
+                        automatically...</div>
+                    <div class="step-time fast">⏱️ Real-time</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <h3>🎯 AI-Discovered Signals (Mock Data for Demo)</h3>
+            <div class="results-grid" id="resultsGrid">
+                <!-- Results populated by JS -->
+            </div>
+
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="summary-value" id="timeProgram">82</div>
+                    <div class="summary-label">Minutes (Programmatic)</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" id="timeAgent">&lt;1</div>
+                    <div class="summary-label">Minutes (Agentic)</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" id="signalsFound">5</div>
+                    <div class="summary-label">Signals Discovered</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" id="timeSaved">98%</div>
+                    <div class="summary-label">Time Saved</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="key-differences">
+            <h3>🔑 Key Differences: Programmatic vs Agentic</h3>
+            <div class="diff-grid">
+                <div class="diff-item">
+                    <div class="diff-icon">🗣️</div>
+                    <div class="diff-title">Natural Language</div>
+                    <div class="diff-desc">Describe what you want in plain English instead of navigating complex
+                        taxonomies and UIs</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">🔍</div>
+                    <div class="diff-title">Semantic Search</div>
+                    <div class="diff-desc">AI understands intent and context, finding relevant segments even without
+                        exact keyword matches</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">🌐</div>
+                    <div class="diff-title">Cross-Platform</div>
+                    <div class="diff-desc">Single interface to discover and activate across DSPs, DMPs, and data
+                        providers</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">💡</div>
+                    <div class="diff-title">AI Recommendations</div>
+                    <div class="diff-desc">Agent suggests custom segments and explains WHY each signal matches your
+                        goals</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">⚡</div>
+                    <div class="diff-title">Instant Activation</div>
+                    <div class="diff-desc">Deploy signals to platforms with single API call instead of manual
+                        configuration</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">📊</div>
+                    <div class="diff-title">Automated Reporting</div>
+                    <div class="diff-desc">Real-time webhooks and delivery notifications - no manual tracking needed
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Brand Opportunities Section -->
+        <div class="key-differences" style="margin-top: 40px; border-left: 4px solid #4ecdc4;">
+            <h3>🏢 What Brands Can Do with Agentic Advertising</h3>
+            <div class="diff-grid">
+                <div class="diff-item">
+                    <div class="diff-icon">🎯</div>
+                    <div class="diff-title">Hyper-Personalized Campaigns</div>
+                    <div class="diff-desc">Launch campaigns in minutes instead of weeks. AI discovers micro-segments you
+                        never knew existed, enabling 1:1 personalization at scale across channels.</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">🔄</div>
+                    <div class="diff-title">Real-Time Optimization</div>
+                    <div class="diff-desc">Agents continuously monitor performance and automatically shift budgets to
+                        best-performing signals, eliminating the lag of human decision cycles.</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">🧪</div>
+                    <div class="diff-title">Rapid A/B Testing</div>
+                    <div class="diff-desc">Test 100+ audience combinations simultaneously. AI identifies winning
+                        segments in hours, not months, accelerating time-to-insight dramatically.</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">🌍</div>
+                    <div class="diff-title">Global Market Entry</div>
+                    <div class="diff-desc">Enter new markets instantly – agents understand local data providers and
+                        regulations, discovering relevant local signals without regional expertise.</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">💰</div>
+                    <div class="diff-title">Budget Efficiency</div>
+                    <div class="diff-desc">Reduce wasted spend by 30-50%. AI-matched signals have higher intent
+                        correlation, meaning fewer impressions needed to drive conversions.</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">🛡️</div>
+                    <div class="diff-title">Brand Safety at Scale</div>
+                    <div class="diff-desc">Natural language brand safety rules automatically translate to contextual
+                        signals across all platforms – "avoid controversial content" becomes actionable instantly.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Agency Development Section -->
+        <div class="key-differences" style="margin-top: 40px; border-left: 4px solid #667eea;">
+            <h3>🚀 What Agencies Can Develop</h3>
+            <div class="diff-grid">
+                <div class="diff-item">
+                    <div class="diff-icon">🤖</div>
+                    <div class="diff-title">Custom AI Agents</div>
+                    <div class="diff-desc">Build proprietary agents trained on your vertical expertise. An automotive
+                        agency agent knows BMW intenders vs Genesis considerers – competitive advantage as a service.
+                    </div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">📈</div>
+                    <div class="diff-title">Predictive Strategy Tools</div>
+                    <div class="diff-desc">Develop tools that predict campaign outcomes before spending. AI simulates
+                        signal combinations against historical performance data for clients.</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">🔗</div>
+                    <div class="diff-title">Cross-Channel Orchestration</div>
+                    <div class="diff-desc">Create unified campaign orchestrators – one agent coordinates signals across
+                        CTV, programmatic display, social, search, and retail media simultaneously.</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">📊</div>
+                    <div class="diff-title">Automated Reporting Suites</div>
+                    <div class="diff-desc">Build real-time dashboards that auto-generate insights. Agents explain WHY
+                        performance changed and recommend next actions – not just what happened.</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">🎨</div>
+                    <div class="diff-title">Creative-Signal Matching</div>
+                    <div class="diff-desc">Develop systems that match creative variants to signals automatically. Sporty
+                        ad for enthusiasts, family ad for parents – all orchestrated by AI.</div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">🏆</div>
+                    <div class="diff-title">Competitive Intelligence</div>
+                    <div class="diff-desc">Build agents that monitor competitor signal usage and discover untapped
+                        audience opportunities – turn data into actionable intelligence for clients.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Consumer Journey Impact Section -->
+        <div class="key-differences"
+            style="margin-top: 40px; background: linear-gradient(135deg, rgba(78,205,196,0.1) 0%, rgba(102,126,234,0.1) 100%);">
+            <h3>✨ Consumer Journey Impact: All Touchpoints Transformed</h3>
+            <p
+                style="text-align: center; opacity: 0.8; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                Agentic advertising fundamentally improves how consumers experience brands – making every interaction
+                more relevant, timely, and valuable.
+            </p>
+
+            <div class="journey-container" style="display: flex; flex-direction: column; gap: 25px;">
+                <!-- Awareness Stage -->
+                <div class="journey-stage"
+                    style="background: rgba(0,0,0,0.2); border-radius: 15px; padding: 25px; border-left: 4px solid #ff6b6b;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                        <span style="font-size: 2em;">👁️</span>
+                        <div>
+                            <h4 style="margin: 0; color: #ff6b6b;">AWARENESS</h4>
+                            <small style="opacity: 0.7;">First Impressions Matter</small>
+                        </div>
+                    </div>
+                    <p style="margin: 0; line-height: 1.6;">
+                        <strong>Before:</strong> Consumers see irrelevant ads – pet food ads to non-pet-owners, creating
+                        friction and ad fatigue.<br>
+                        <strong>After:</strong> AI-matched signals ensure first contact is contextually perfect. A
+                        camping enthusiast sees outdoor gear when researching trail maps, not random products.
+                        <em>Result: 3x higher brand recall, positive first impression.</em>
+                    </p>
+                </div>
+
+                <!-- Consideration Stage -->
+                <div class="journey-stage"
+                    style="background: rgba(0,0,0,0.2); border-radius: 15px; padding: 25px; border-left: 4px solid #ffc107;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                        <span style="font-size: 2em;">🤔</span>
+                        <div>
+                            <h4 style="margin: 0; color: #ffc107;">CONSIDERATION</h4>
+                            <small style="opacity: 0.7;">Building Trust & Interest</small>
+                        </div>
+                    </div>
+                    <p style="margin: 0; line-height: 1.6;">
+                        <strong>Before:</strong> Retargeting the same product endlessly, even after purchase. Consumers
+                        feel stalked, not served.<br>
+                        <strong>After:</strong> Agents understand purchase intent signals – they serve comparison
+                        content to researchers, reviews to validators, and stop once conversion signals detected.
+                        <em>Result: Consumers feel understood, not tracked.</em>
+                    </p>
+                </div>
+
+                <!-- Decision Stage -->
+                <div class="journey-stage"
+                    style="background: rgba(0,0,0,0.2); border-radius: 15px; padding: 25px; border-left: 4px solid #4ecdc4;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                        <span style="font-size: 2em;">⚖️</span>
+                        <div>
+                            <h4 style="margin: 0; color: #4ecdc4;">DECISION</h4>
+                            <small style="opacity: 0.7;">Converting Intent to Action</small>
+                        </div>
+                    </div>
+                    <p style="margin: 0; line-height: 1.6;">
+                        <strong>Before:</strong> Generic promotional messages regardless of buyer readiness or
+                        concerns.<br>
+                        <strong>After:</strong> Agents detect decision-stage signals and match appropriate messaging –
+                        price-sensitive signals trigger value messaging, feature-comparison signals trigger product
+                        differentiators. <em>Result: Right message at the right moment accelerates purchase by 40%.</em>
+                    </p>
+                </div>
+
+                <!-- Purchase Stage -->
+                <div class="journey-stage"
+                    style="background: rgba(0,0,0,0.2); border-radius: 15px; padding: 25px; border-left: 4px solid #667eea;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                        <span style="font-size: 2em;">🛒</span>
+                        <div>
+                            <h4 style="margin: 0; color: #667eea;">PURCHASE</h4>
+                            <small style="opacity: 0.7;">Seamless Transaction</small>
+                        </div>
+                    </div>
+                    <p style="margin: 0; line-height: 1.6;">
+                        <strong>Before:</strong> Cart abandonment with no intelligent re-engagement strategy.<br>
+                        <strong>After:</strong> Cross-platform signals identify abandonment context – time-based signals
+                        for "busy now," price signals for "waiting for sale," and inventory signals for "out of stock
+                        elsewhere." Each gets tailored re-engagement. <em>Result: 25% cart recovery improvement.</em>
+                    </p>
+                </div>
+
+                <!-- Loyalty Stage -->
+                <div class="journey-stage"
+                    style="background: rgba(0,0,0,0.2); border-radius: 15px; padding: 25px; border-left: 4px solid #764ba2;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                        <span style="font-size: 2em;">💎</span>
+                        <div>
+                            <h4 style="margin: 0; color: #764ba2;">LOYALTY & ADVOCACY</h4>
+                            <small style="opacity: 0.7;">Building Long-Term Relationships</small>
+                        </div>
+                    </div>
+                    <p style="margin: 0; line-height: 1.6;">
+                        <strong>Before:</strong> Spray-and-pray email marketing, treating all customers identically.<br>
+                        <strong>After:</strong> Signals detect lifestyle changes – new parent signals trigger baby
+                        product recommendations, home purchase signals trigger furniture campaigns. Loyalty programs
+                        adapt in real-time. <em>Result: 60% higher LTV through anticipatory service.</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: The Future Vision Section -->
+        <div class="key-differences" style="margin-top: 40px; text-align: center;">
+            <h3>🔮 The Agentic Advertising Vision</h3>
+            <div
+                style="max-width: 900px; margin: 0 auto; padding: 30px; background: linear-gradient(135deg, rgba(102,126,234,0.2) 0%, rgba(118,75,162,0.2) 100%); border-radius: 20px;">
+                <p style="font-size: 1.2em; line-height: 1.8; margin-bottom: 20px;">
+                    <em>"In the agentic future, advertising becomes <strong>invisible infrastructure</strong> –
+                        consumers don't see ads, they receive <strong>relevant suggestions</strong> exactly when needed.
+                        Brands don't buy impressions, they <strong>participate in moments</strong>. Agencies don't
+                        execute campaigns, they <strong>design intelligent systems</strong> that continuously optimize
+                        toward human outcomes."</em>
+                </p>
+                <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 30px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5em; font-weight: bold; color: #4ecdc4;">-85%</div>
+                        <div style="opacity: 0.7;">Ad Waste</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5em; font-weight: bold; color: #667eea;">+200%</div>
+                        <div style="opacity: 0.7;">Relevance Score</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5em; font-weight: bold; color: #764ba2;">+150%</div>
+                        <div style="opacity: 0.7;">Consumer Trust</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock signal data (simulating what the agent would return)
+        const mockSignals = [
+            {
+                name: "Auto Luxury SUV Intenders - High Net Worth",
+                provider: "Oracle Data Cloud",
+                coverage: 8.5,
+                cpm: 2.50,
+                status: "live",
+                platforms: ["TTD", "DV360", "Xandr"],
+                explanation: "High correlation with premium automotive content consumption and dealership visits for luxury brands (BMW, Mercedes, Lexus)"
+            },
+            {
+                name: "Premium Vehicle Shoppers - In-Market",
+                provider: "LiveRamp",
+                coverage: 12.3,
+                cpm: 3.25,
+                status: "live",
+                platforms: ["TTD", "Amazon DSP", "DV360"],
+                explanation: "Active research behavior on luxury automotive sites detected in past 30 days with purchase intent signals"
+            },
+            {
+                name: "Affluent Auto Enthusiasts",
+                provider: "Nielsen",
+                coverage: 6.8,
+                cpm: 1.95,
+                status: "pending",
+                platforms: ["TTD", "Xandr"],
+                explanation: "Demographics overlay showing HHI $150k+ combined with automotive magazine subscriptions and events attendance"
+            },
+            {
+                name: "Luxury Lifestyle - Premium Mobility",
+                provider: "Experian",
+                coverage: 9.2,
+                cpm: 2.75,
+                status: "live",
+                platforms: ["DV360", "Amazon DSP"],
+                explanation: "Multi-dimensional signal combining premium credit card holders, luxury travel bookings, and auto lease patterns"
+            },
+            {
+                name: "High-End SUV Conquest Ready",
+                provider: "Polk Automotive",
+                coverage: 4.1,
+                cpm: 4.50,
+                status: "live",
+                platforms: ["TTD"],
+                explanation: "Current owners of competitor luxury SUVs (BMW X5, Audi Q7) approaching lease end within 6 months"
+            }
+        ];
+
+        let demoRunning = false;
+
+        async function runDemo() {
+            if (demoRunning) return;
+            demoRunning = true;
+
+            const button = document.getElementById('runDemo');
+            button.disabled = true;
+            button.textContent = '⏳ Running Demo...';
+
+            const prompt = document.getElementById('campaignPrompt').value;
+            document.getElementById('agentPromptDisplay').innerHTML = `<em>"${prompt}"</em>`;
+
+            // Reset all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active', 'completed');
+            });
+
+            // Run programmatic steps (slow)
+            const progSteps = ['prog-step1', 'prog-step2', 'prog-step3', 'prog-step4', 'prog-step5', 'prog-step6'];
+            const agentSteps = ['agent-step1', 'agent-step2', 'agent-step3', 'agent-step4', 'agent-step5'];
+
+            // Start both simultaneously
+            runProgrammaticDemo(progSteps);
+            await runAgenticDemo(agentSteps);
+
+            // Show results
+            showResults(prompt);
+
+            button.disabled = false;
+            button.textContent = '▶️ Run Side-by-Side Demo';
+            demoRunning = false;
+        }
+
+        async function runProgrammaticDemo(steps) {
+            for (let i = 0; i < steps.length; i++) {
+                const step = document.getElementById(steps[i]);
+                step.classList.add('active');
+
+                // Vary the delay to simulate real work
+                const delays = [1500, 2000, 2500, 1500, 2000, 1500];
+                await sleep(delays[i]);
+
+                step.classList.remove('active');
+                step.classList.add('completed');
+            }
+        }
+
+        async function runAgenticDemo(steps) {
+            for (let i = 0; i < steps.length; i++) {
+                const step = document.getElementById(steps[i]);
+                step.classList.add('active');
+
+                // Agent steps are fast!
+                const delays = [300, 800, 200, 500, 300];
+                await sleep(delays[i]);
+
+                step.classList.remove('active');
+                step.classList.add('completed');
+            }
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function showResults(prompt) {
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsGrid = document.getElementById('resultsGrid');
+
+            resultsGrid.innerHTML = mockSignals.map(signal => `
+                <div class="signal-card">
+                    <div class="signal-header">
+                        <div class="signal-name">${signal.name}</div>
+                        <div class="signal-status ${signal.status}">${signal.status === 'live' ? '🟢 Live' : '🟡 Pending'}</div>
+                    </div>
+                    <div class="signal-description">
+                        Provider: ${signal.provider}<br>
+                        Platforms: ${signal.platforms.join(', ')}
+                    </div>
+                    <div class="signal-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Coverage:</span>
+                            <span class="meta-value">${signal.coverage}%</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">CPM:</span>
+                            <span class="meta-value">$${signal.cpm.toFixed(2)}</span>
+                        </div>
+                    </div>
+                    <div class="ai-explanation">${signal.explanation}</div>
+                </div>
+            `).join('');
+
+            resultsSection.style.display = 'block';
+
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
